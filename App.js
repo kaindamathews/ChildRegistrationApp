@@ -1,20 +1,27 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React,{ useEffect }  from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import ChildRegistrationForm from './screens/ChildRegistrationForm';
+import ChildListView from './screens/ChildListView';
+import ChildProfile from './screens/ChildProfile';
+import { createTable } from './dbConfig/database';
 
-export default function App() {
+const Stack = createStackNavigator();
+
+const App = () => {
+    useEffect(() => {
+      createTable();
+    }, []);
+    
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="ListView">
+        <Stack.Screen name="Registration" component={ChildRegistrationForm} />
+        <Stack.Screen name="ListView" component={ChildListView} />
+        <Stack.Screen name="Profile" component={ChildProfile} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
